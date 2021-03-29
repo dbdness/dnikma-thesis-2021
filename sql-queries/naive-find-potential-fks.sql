@@ -10,7 +10,7 @@ SELECT
                     'SELECT ''{Ltable}.{Lcol}'' as left_col, ''{Rtable}.{Rcol}'' as right_col, COUNT(l.{Lcol}) as count_left, COUNT(r.{Rcol}) as count_right, 
                     CASE WHEN count(r.{Rcol}) = 0 
                     THEN 0 
-                    ELSE COUNT(l.{Lcol})/COUNT(r.{Rcol}) 
+                    ELSE COUNT(r.{Rcol})/COUNT(l.{Lcol})
                     END 
                     AS percent_match
 				FROM {Ltable} l LEFT JOIN {Rtable} r ON l.{Lcol} = r.{Rcol} UNION ALL',
@@ -38,3 +38,5 @@ WHERE
 	AND cr.data_type NOT IN ( 'datetime', 'timestamp', 'money', 'text', 'lontext', 'longblob', 'blob', 'decimal' ) 
 ORDER BY
     cl.data_type ASC;
+
+    
