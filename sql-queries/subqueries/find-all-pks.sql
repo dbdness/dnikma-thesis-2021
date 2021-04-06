@@ -1,6 +1,6 @@
 SET @db = 'northwind_nofks';
 
-SELECT DISTINCT
+SELECT
 	tab.table_schema AS database_schema,
 	sta.index_name AS pk_name,
 	sta.seq_in_index AS column_id,
