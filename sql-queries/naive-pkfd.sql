@@ -7,13 +7,18 @@ SELECT
         REPLACE (
             REPLACE (
                 REPLACE (
+<<<<<<< Updated upstream:sql-queries/naive-pkfd.sql
                     'SELECT ''{Ltable}.{Lcol}'' as left_col, ''{Rtable}.{Rcol}'' as right_col, COUNT(l.{Lcol}) as count_left, COUNT(r.{Rcol}) as count_right, 
                     CASE WHEN count(l.{Lcol}) = 0 
+=======
+                    'SELECT ''{Ltable}.{Lcol}'' as left_col, ''{Rtable}.{Rcol}'' as right_col, COUNT(l.{Lcol}) as count_left, COUNT(r.{Rcol}) as count_right, COUNT(r.{Rcol})-COUNT(l.{Lcol}) as diff, COUNT(DISTINCT(l.{Lcol})) as distinct_left, COUNT(DISTINCT(r.{Rcol})) as distinct_right,
+                    CASE WHEN count(r.{Rcol}) = 0 
+>>>>>>> Stashed changes:sql-queries/naive-find-potential-fks.sql
                     THEN 0 
-                    ELSE COUNT(r.{Rcol})/COUNT(l.{Lcol})
+                    ELSE COUNT(l.{Lcol})/COUNT(r.{Rcol})
                     END 
                     AS percent_match
-				FROM {Ltable} l LEFT JOIN {Rtable} r ON l.{Lcol} = r.{Rcol} UNION ALL',
+				FROM {Ltable} l RIGHT JOIN {Rtable} r ON l.{Lcol} = r.{Rcol} UNION ALL',
                     '{Ltable}',
                     cl.table_name
                 ),
@@ -38,5 +43,3 @@ WHERE
 	AND cr.data_type NOT IN ( 'datetime', 'timestamp', 'money', 'text', 'lontext', 'longblob', 'blob', 'decimal' ) 
 ORDER BY
     cl.data_type ASC;
-
-    
