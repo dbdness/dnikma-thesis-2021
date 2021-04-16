@@ -9,6 +9,6 @@ setup(
     ],
     author='dnikma',
     entry_points={
-        'console_scripts': ['dic=dnikma_integrity_checker.cli.cli:main']
+        'console_scripts': ['dic=dnikma_integrity_checker.cli.cli:entry_point']
     },
 )
