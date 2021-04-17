@@ -1,4 +1,8 @@
-# Generated with https://manytools.org/hacker-tools/ascii-banner/
+"""
+A custom ASCII banner for the tool.
+Generated with https://manytools.org/hacker-tools/ascii-banner/
+"""
+
 banner = """                                                         
                                       _      _ _                                                  
                                    __| |_ _ (_) |___ __  __ _                                     

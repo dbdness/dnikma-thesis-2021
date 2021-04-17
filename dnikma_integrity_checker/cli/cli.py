@@ -6,15 +6,19 @@ parent package (dnikma_integrity_checker)
 """
 
 import click
-from .banner import banner
+
+from .about import about
 from ..connect import connect
 from ..pfkd import pfkd
 
 
-@click.group(help="dnikma MySQL Integrity Checker")
+@click.group(help='dnikma MySQL Integrity Checker')
 def entry_point():
+    # Do nothing.
     pass
 
 
+# Available commands are added in sequence to the main Click CLI group here.
+entry_point.add_command(about)
 entry_point.add_command(connect.connect_mysql)
 entry_point.add_command(pfkd.pfkd)
