@@ -6,6 +6,7 @@ setup(
     packages=['dnikma_integrity_checker'],
     install_requires=[
         'Click',
+        'mysql-connector-python'
     ],
     author='dnikma',
     entry_points={

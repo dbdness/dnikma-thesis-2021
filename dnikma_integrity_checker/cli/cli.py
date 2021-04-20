@@ -7,9 +7,9 @@ parent package (dnikma_integrity_checker)
 
 import click
 
-from .about import about
-from ..connect import connect
-from ..pfkd import pfkd
+from dnikma_integrity_checker.cli.about import about
+from dnikma_integrity_checker.connect import connect
+from dnikma_integrity_checker.pfkd import pfkd
 
 
 @click.group(help='dnikma MySQL Integrity Checker')
