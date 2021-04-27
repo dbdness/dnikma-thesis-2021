@@ -22,9 +22,9 @@ def pfkd(name_like_id=None):
     else:
         ctx = context.get_context()
         db = ctx.obj['mysql']
-        # curs = db.query("SELECT * FROM employees LIMIT 1")
-        # r = curs.fetchone()
-        # cprint(str(r))
+        curs = db.query("SELECT * FROM employees LIMIT 1")
+        r = curs.fetchone()
+        cprint(str(r))
 
 
 def __f_name_like_id():

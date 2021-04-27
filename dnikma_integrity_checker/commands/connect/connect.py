@@ -32,10 +32,6 @@ def connect_mysql(connection_string):
         cprint("Id of db: " + str(id(db)))
         ctx = context.get_context()
         ctx.obj['mysql'] = db
-        # cur = db.query('SELECT * FROM orders LIMIT 1')
-        # row = cur.fetchone()
-        # cprint(row)
-
     except Exception as ex:
         cprint("Connection to MySQL instance failed. A connection error occurred:")
         cprint(f'{ex}')
