@@ -5,11 +5,12 @@ setup(
     version='0.1',
     packages=['dnikma_integrity_checker'],
     install_requires=[
-        'Click',
-        'mysql-connector-python'
+        'python-nubia',
+        'mysql-connector-python',
+        'termcolor'
     ],
     author='dnikma',
     entry_points={
-        'console_scripts': ['dic=dnikma_integrity_checker.cli.cli:entry_point']
+        'console_scripts': ['dic=dnikma_integrity_checker.shell.shell:entry_point']
     },
 )
