@@ -15,6 +15,7 @@ def pfkd(name_like_id=None):
     This feature is powered by dnikma's Potential Foreign Key Detection (PfkD) algorithm.
 
     DISCLAIMER: Results may vary between different schemas. Please validate the outcome before applying it.
+    --------------------------------------------------------------------------------------------------------------------
     """
     if name_like_id:
         cprint("I will soon find potential foreign keys with %id% name pattern...")

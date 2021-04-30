@@ -1,9 +1,6 @@
-import logging
-
 import mysql.connector
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+from dnikma_integrity_checker.helpers.utils import dicprint, Severity
 
 
 class MySQLConn(object):
@@ -11,27 +8,28 @@ class MySQLConn(object):
         self.conn = None
         self.curs = None
 
-    def connect(self, conn_args: dict = None):
+    def connect(self, conn_args, verbose: int):
         if self.conn is None:
             if conn_args is None:
                 raise Exception("No connection arguments provided, and MySQL connection is none.\n",
                                 "Please provide connection kwargs.")
             try:
                 self.conn = mysql.connector.connect(**conn_args)
+                self.conn.autocommit = True
                 self.curs = self.conn.cursor()
                 self.curs.execute('SELECT VERSION()')
                 self.curs.fetchone()
-                logger.info("MySQL connection to database established.")
-                logger.info("Connection details:")
-                logger.info(f'{conn_args}')
+                if verbose:
+                    dicprint("Connection details:", Severity.INFO)
+                    dicprint(f'{conn_args}', Severity.INFO)
             except(Exception, mysql.connector.Error) as ex:
-                logger.error("Error establishing MySQL connection:")
-                logger.error(ex)
+                dicprint(ex, Severity.ERROR)
         return self
 
-    def query(self, sql: str, params: tuple = None):
+    def query(self, sql: str, verbose: int, params: tuple = None):
         """
         Send a query to the open MySQL connection.
+        :param verbose: Verbosity level
         :param sql: The MySQL query to be executed.
         :param params: (Optional) Parameters/arguments for the query.
         :return: A cursor object containing query results, if any.
@@ -42,10 +40,13 @@ class MySQLConn(object):
             print(first_name, last_name)
         """
         if self.conn is None:
-            raise Exception("MySQL connection is None, cannot execute query.",
-                            "Please run the connect() function first.")
+            dicprint("MySQL connection is None, cannot execute query. Please run the connect() function first.",
+                     Severity.ERROR)
+            return
         self.curs.execute(sql, params)
-        logger.debug(self.curs.statement)
+        if verbose:
+            dicprint('Statement executed:', Severity.INFO)
+            dicprint(self.curs.statement, Severity.INFO)
         return self.curs
 
 
