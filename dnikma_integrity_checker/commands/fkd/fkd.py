@@ -1,20 +1,20 @@
 """
-The entry point and feature configurations for the Primary Key Detection, 'pkd', command.
+The entry point and feature configurations for the Foreign Key Detection, 'fkd', command.
 """
 import requests
 from nubia import command, context
 
-from dnikma_integrity_checker.helpers.utils import dicprint_table, verify_db
+from dnikma_integrity_checker.helpers.utils import dicprint, dicprint_table, Severity, verify_db
 
 query_page = requests.get(
-    "https://raw.githubusercontent.com/dbdness/dnikma-thesis-2021/master/sql-queries/subqueries/pkd.sql?token=ACJ6L5NMY4QFYNCZKXZ5VBTASWYUS")
+    "")
 
 
-@command('pkd')
-def pkd():
+@command('fkd')
+def fkd():
     """
-    Find all existing primary key constraints in the current schema.
-    This feature is powered by dnikma's Primary Key Detection (pkD) algorithm.
+    Find all existing foreign key constraints in the current schema.
+    This feature is powered by dnikma's Foreign Key Detection (fkD) algorithm.
     --------------------------------------------------------------------------------------------------------------------
     """
 

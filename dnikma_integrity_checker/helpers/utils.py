@@ -28,3 +28,11 @@ def dicprint_table(rows, columns: []):
     for row in rows:
         table.add_row(row)
     dicprint(table, Severity.NONE)
+
+
+def verify_db(db):
+    if db is None:
+        dicprint("Error: No active connection to a MySQL instance was found.", Severity.ERROR)
+        dicprint("Please make sure to connect to a MySQL instance with the command 'connect-mysql'"
+                 "before using the 'pkd' command.", Severity.ERROR)
+        return
