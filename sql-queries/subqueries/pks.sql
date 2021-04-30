@@ -1,5 +1,3 @@
-SET @db = 'northwind_nofks';
-
 SELECT
 	tab.table_schema AS database_schema,
 	sta.index_name AS pk_name,
@@ -16,7 +14,7 @@ FROM
 	AND tab.TABLE_NAME = cls.TABLE_NAME 
 	AND sta.column_name = cls.column_name 
 WHERE
-	tab.table_schema = @db 
+	tab.table_schema = DATABASE()
 	AND tab.table_type = 'BASE TABLE' 
 ORDER BY
 	tab.table_name,
