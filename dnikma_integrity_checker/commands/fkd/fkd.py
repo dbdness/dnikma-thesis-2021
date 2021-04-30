@@ -4,10 +4,10 @@ The entry point and feature configurations for the Foreign Key Detection, 'fkd',
 import requests
 from nubia import command, context
 
-from dnikma_integrity_checker.helpers.utils import dicprint, dicprint_table, Severity, verify_db
+from dnikma_integrity_checker.helpers.utils import dicprint_table, db_ok
 
 query_page = requests.get(
-    "")
+    "https://raw.githubusercontent.com/dbdness/dnikma-thesis-2021/master/sql-queries/fkd.sql?token=ACJ6L5K7EJ3D7PC5NOYM2Q3ASW3UK")
 
 
 @command('fkd')
@@ -24,7 +24,8 @@ def fkd():
     verbose = ctx.args.verbose
     db = ctx.obj.get('mysql')
 
-    verify_db(db)
+    if not db_ok(db):
+        return
 
     curs = db.query(query, verbose)
     r = curs.fetchall()
