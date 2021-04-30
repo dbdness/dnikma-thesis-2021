@@ -1,9 +1,6 @@
 SELECT
-	tab.table_schema AS database_schema,
-	sta.index_name AS pk_name,
-	sta.seq_in_index AS column_id,
-	sta.column_name,
 	tab.table_name,
+	sta.column_name,
 	cls.data_type 
 FROM
 	information_schema.TABLES AS tab
@@ -17,5 +14,4 @@ WHERE
 	tab.table_schema = DATABASE()
 	AND tab.table_type = 'BASE TABLE' 
 ORDER BY
-	tab.table_name,
-	column_id;
+	tab.table_name;
