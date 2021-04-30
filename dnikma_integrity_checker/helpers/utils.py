@@ -16,6 +16,9 @@ class Severity(Enum):
 
 
 def dicprint(txt, severity: Severity):
+    if severity is Severity.NONE:
+        print(txt)
+        return
     cprint(txt, severity.value)
 
 
