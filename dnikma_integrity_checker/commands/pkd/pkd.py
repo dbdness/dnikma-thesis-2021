@@ -18,7 +18,7 @@ def pkd():
     """
 
     page = requests.get(
-        "https://raw.githubusercontent.com/dbdness/dnikma-thesis-2021/master/sql-queries/subqueries/pks.sql?token=ACJ6L5J7UPATOYKTHEGNDDTASWVPE")
+        "https://raw.githubusercontent.com/dbdness/dnikma-thesis-2021/master/sql-queries/subqueries/pkd.sql?token=ACJ6L5NMY4QFYNCZKXZ5VBTASWYUS")
     raw = page.text
 
     ctx = context.get_context()
@@ -26,8 +26,8 @@ def pkd():
     db = ctx.obj.get('mysql')
 
     if db is None:
-        dicprint("Error: No connection to MySQL instance was found.", Severity.ERROR)
-        dicprint("Please make sure to connect to a MySQL instance with the command 'connect-mysql CONNECTION_STRING' "
+        dicprint("Error: No active connection to a MySQL instance was found.", Severity.ERROR)
+        dicprint("Please make sure to connect to a MySQL instance with the command 'connect-mysql'"
                  "before using the 'pkd' command.", Severity.ERROR)
         return
 

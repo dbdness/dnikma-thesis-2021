@@ -8,7 +8,8 @@ setup(
         'python-nubia',
         'mysql-connector-python',
         'termcolor',
-        'prettytable'
+        'prettytable',
+        'requests'
     ],
     author='dnikma',
     entry_points={
