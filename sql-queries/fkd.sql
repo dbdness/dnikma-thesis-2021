@@ -1,5 +1,4 @@
 SELECT
-  fks.TABLE_SCHEMA,
 	fks.table_name,
 	fks.constraint_name
 FROM
@@ -12,5 +11,4 @@ WHERE
 	AND tab.table_type = 'BASE TABLE' 
 	AND tab.table_schema = DATABASE()
 ORDER BY
-	tab.table_schema,
 	tab.table_name;
