@@ -30,4 +30,4 @@ def fkd():
     curs = db.query(query, verbose)
     r = curs.fetchall()
 
-    dicprint_table(r, ["column_name", "table_name", "data_type"])
+    dicprint_table(r, ["table_name", "constraint_name"])
