@@ -12,11 +12,11 @@ from dnikma_integrity_checker.helpers.banner import banner
 def about():
     """
     About this tool.
-
-    Display a welcome message containing relevant information on the tool.
+    --------------------------------------------------------------------------------------------------------------------
     """
-    cprint(banner)
+    cprint(banner, 'green')
     cprint("\n")
     cprint("Welcome to the dnikma MySQL Integrity Checker.")
     cprint("This tool has been developed as a part of Danny and Kim's 2021 thesis project at Roskilde University.")
     cprint("Please refer to the GitHub repository for more details: https://github.com/dbdness/dnikma-thesis-2021")
+    cprint("")

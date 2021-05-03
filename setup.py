@@ -7,7 +7,9 @@ setup(
     install_requires=[
         'python-nubia',
         'mysql-connector-python',
-        'termcolor'
+        'termcolor',
+        'prettytable',
+        'requests'
     ],
     author='dnikma',
     entry_points={

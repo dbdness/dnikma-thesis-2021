@@ -15,16 +15,14 @@ def pfkd(name_like_id=None):
     This feature is powered by dnikma's Potential Foreign Key Detection (PfkD) algorithm.
 
     DISCLAIMER: Results may vary between different schemas. Please validate the outcome before applying it.
+    --------------------------------------------------------------------------------------------------------------------
     """
     if name_like_id:
         cprint("I will soon find potential foreign keys with %id% name pattern...")
         __f_name_like_id()
     else:
         ctx = context.get_context()
-        db = ctx.obj['mysql']
-        curs = db.query("SELECT * FROM employees LIMIT 1")
-        r = curs.fetchone()
-        cprint(str(r))
+        verbose = ctx.args.verbose
 
 
 def __f_name_like_id():

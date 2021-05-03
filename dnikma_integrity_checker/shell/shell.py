@@ -20,7 +20,8 @@ def entry_point():
         command_pkgs=commands,
         plugin=plugin,
         options=Options(
-            persistent_history=False, auto_execute_single_suggestions=False
+            persistent_history=False,
+            auto_execute_single_suggestions=False
         ),
     )
     sys.exit(shell.run())
