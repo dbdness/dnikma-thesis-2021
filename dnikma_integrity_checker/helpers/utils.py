@@ -34,6 +34,6 @@ def db_ok(db) -> bool:
     if db is None:
         dicprint("Error: No active connection to a MySQL instance was found.", Severity.ERROR)
         dicprint("Please make sure to connect to a MySQL instance with the command 'connect-mysql'"
-                 "before using the 'pkd' command.", Severity.ERROR)
+                 "before using this command.", Severity.ERROR)
         return False
     return True

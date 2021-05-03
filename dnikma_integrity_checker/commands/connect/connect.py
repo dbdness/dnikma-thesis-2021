@@ -51,7 +51,9 @@ def open_connection(params) -> MySQLConn:
     verbose = ctx.args.verbose
     try:
         db = mysql_conn.connect(params, verbose)
-        dicprint(f"Connection to MySQL instance @ {params.get('host')} successfully established.", Severity.SUCCESS)
+        dicprint(
+            f"Connection to MySQL instance {params.get('database')}@{params.get('host')} successfully established.",
+            Severity.SUCCESS)
         ctx.obj['mysql'] = db
         if verbose:
             dicprint("Memory id of instance object: " + str(id(db)), Severity.INFO)
