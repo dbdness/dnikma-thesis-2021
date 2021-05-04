@@ -1,5 +1,5 @@
 SET
-    @db = 'northwind_nofks',
+    @db = DATABASE(),
     @pk_nullable = 'NO'; -- for some DB designs, this might be 'YES'.
 
 SELECT
