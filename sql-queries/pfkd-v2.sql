@@ -40,33 +40,27 @@ FROM
     AND cl.data_type = cr.data_type
 AND cl.column_name IN (
 	SELECT
-		DISTINCT(sta.column_name) 
+		DISTINCT sta.column_name
 	FROM
 		information_schema.TABLES AS tab
-	INNER JOIN information_schema.statistics AS sta ON sta.table_schema = tab.table_schema 
+		INNER JOIN information_schema.statistics AS sta ON sta.table_schema = tab.table_schema 
 		AND sta.table_name = tab.table_name 
-	    AND sta.index_name = 'primary'
-	JOIN information_schema.COLUMNS AS cls ON tab.TABLE_SCHEMA = cls.TABLE_SCHEMA 
-        AND tab.TABLE_NAME = cls.TABLE_NAME 
-		AND sta.column_name = cls.column_name 
+		AND sta.index_name = 'primary'
 	WHERE
-		tab.table_schema = @db 
-		AND tab.table_type = 'BASE TABLE' 
+		tab.table_schema = DATABASE()
+		AND tab.table_type = 'BASE TABLE'
 	)
 AND cr.column_name NOT IN (
 	SELECT
-		DISTINCT(sta.column_name)
+		DISTINCT sta.column_name
 	FROM
 		information_schema.TABLES AS tab
-	INNER JOIN information_schema.statistics AS sta ON sta.table_schema = tab.table_schema 
+		INNER JOIN information_schema.statistics AS sta ON sta.table_schema = tab.table_schema 
 		AND sta.table_name = tab.table_name 
 		AND sta.index_name = 'primary'
-	JOIN information_schema.COLUMNS AS cls ON tab.TABLE_SCHEMA = cls.TABLE_SCHEMA 
-		AND tab.TABLE_NAME = cls.TABLE_NAME 
-		AND sta.column_name = cls.column_name 
 	WHERE
-		tab.table_schema = @db 
-		AND tab.table_type = 'BASE TABLE' 
+		tab.table_schema = DATABASE()
+		AND tab.table_type = 'BASE TABLE'
 	)
 WHERE
     cl.is_nullable = @pk_nullable
