@@ -1,5 +1,5 @@
 SET
-    @db = 'northwind_nofks',
+    @db = DATABASE(),
     @pk_nullable = 'NO'; -- Design this as a flag for the CLI tool (for some DB designs, this might be 'YES').
 
 SELECT
@@ -21,7 +21,6 @@ FROM
 WHERE
     cols.table_schema = @db
     AND cols.is_nullable = @pk_nullable
-    AND cols.data_type NOT IN ( 'datetime', 'timestamp', 'money', 'text', 'lontext', 'longblob', 'blob', 'decimal' ) 
-    AND cols.data_type NOT IN ( 'datetime', 'timestamp', 'money', 'text', 'lontext', 'longblob', 'blob', 'decimal' ) 
+    AND cols.data_type NOT IN ( 'datetime', 'timestamp', 'money', 'text', 'lontext', 'longblob', 'blob', 'decimal' )
 ORDER BY
     cols.table_schema ASC;
