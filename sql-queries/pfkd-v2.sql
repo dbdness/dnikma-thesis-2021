@@ -47,7 +47,7 @@ AND cl.column_name IN (
 		AND sta.table_name = tab.table_name 
 		AND sta.index_name = 'primary'
 	WHERE
-		tab.table_schema = DATABASE()
+		tab.table_schema = @db
 		AND tab.table_type = 'BASE TABLE'
 	)
 AND cr.column_name NOT IN (
@@ -59,7 +59,7 @@ AND cr.column_name NOT IN (
 		AND sta.table_name = tab.table_name 
 		AND sta.index_name = 'primary'
 	WHERE
-		tab.table_schema = DATABASE()
+		tab.table_schema = @db
 		AND tab.table_type = 'BASE TABLE'
 	)
 WHERE
