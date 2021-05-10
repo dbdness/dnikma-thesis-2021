@@ -1,7 +1,3 @@
-SET
-    @db = DATABASE(),
-    @pk_nullable = 'NO'; -- for some DB designs, this might be 'YES'.
-
 SELECT
     REPLACE (
         REPLACE (
@@ -57,8 +53,8 @@ AND cr.column_name NOT IN (
 		AND index_name = 'primary'
 	)
 WHERE
-    cl.is_nullable = @pk_nullable
-    AND cl.table_schema = @db
-    AND cr.table_schema = @db
+    cl.table_schema = DATABASE()
+    AND cr.table_schema = DATABASE()
+	AND cl.is_nullable = %(pk_nullable)s
 ORDER BY
     cr.table_schema;
