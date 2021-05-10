@@ -22,8 +22,9 @@ SELECT
 '{pcol}',
 p.column_name)
 FROM information_schema.COLUMNS c, information_schema.COLUMNS p
-WHERE c.table_name = @child_tab
+WHERE c.table_schema = DATABASE()
+	AND p.table_schema = DATABASE()
+	AND c.table_name = @child_tab
     AND c.column_name = @child_col
     AND p.table_name = @parent_tab
     AND p.column_name = @parent_col
-LIMIT 1;
