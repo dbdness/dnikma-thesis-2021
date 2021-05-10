@@ -27,4 +27,4 @@ WHERE c.table_schema = DATABASE()
 	AND c.table_name = @child_tab
     AND c.column_name = @child_col
     AND p.table_name = @parent_tab
-    AND p.column_name = @parent_col
+    AND p.column_name = @parent_col;
