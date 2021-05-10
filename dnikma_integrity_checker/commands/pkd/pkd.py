@@ -1,13 +1,12 @@
 """
 The entry point and feature configurations for the Primary Key Detection, 'pkd', command.
 """
-import requests
 from nubia import command, context
 
-from dnikma_integrity_checker.helpers.utils import dicprint_table, db_ok
+from dnikma_integrity_checker.helpers.utils import dicprint_table, db_ok, read_sql_file, DicLoadingSpinner
+from dnikma_integrity_checker.shell.configs.dic_context import DicContext
 
-query_page = requests.get(
-    "https://raw.githubusercontent.com/dbdness/dnikma-thesis-2021/master/sql-queries/pkd.sql?token=ACJ6L5I6QQJCQIEZQU2LBS3ASW3SY")
+query = read_sql_file('pkd.sql')
 
 
 @command('pkd')
@@ -17,17 +16,13 @@ def pkd():
     This feature is powered by dnikma's Primary Key Detection (pkD) algorithm.
     --------------------------------------------------------------------------------------------------------------------
     """
-
-    query = query_page.text
-
-    ctx = context.get_context()
-    verbose = ctx.args.verbose
-    db = ctx.obj.get('mysql')
+    ctx: DicContext = context.get_context()
+    db = ctx.get_mysql()
 
     if not db_ok(db):
         return
 
-    curs = db.query(query, verbose)
-    r = curs.fetchall()
-
-    dicprint_table(r, ["column_name", "table_name", "data_type"])
+    with DicLoadingSpinner():
+        curs = db.query(query)
+        r = curs.fetchall()
+        dicprint_table(r, ["column_name", "table_name", "data_type"])

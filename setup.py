@@ -9,7 +9,7 @@ setup(
         'mysql-connector-python',
         'termcolor',
         'prettytable',
-        'requests'
+        'halo'
     ],
     author='dnikma',
     entry_points={
