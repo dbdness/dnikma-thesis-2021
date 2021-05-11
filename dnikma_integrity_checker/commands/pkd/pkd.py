@@ -23,6 +23,11 @@ def pkd():
         return
 
     with DicLoadingSpinner():
-        curs = db.query(query)
-        r = curs.fetchall()
-        dicprint_table(r, ["column_name", "table_name", "data_type"])
+        rows = _run_pkd(db)
+    dicprint_table(rows, ["column_name", "table_name", "data_type"])
+
+
+def _run_pkd(db) -> []:
+    curs = db.query(query)
+    r = curs.fetchall()
+    return r

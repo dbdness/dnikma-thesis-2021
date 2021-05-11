@@ -24,7 +24,6 @@ def dicprint(txt, severity: Severity):
 
 
 def dicprint_table(rows: [], columns: [], row_numbers: bool = False):
-    cprint('')
     if row_numbers:
         columns.insert(0, '#')
     table = PrettyTable(columns)
@@ -109,4 +108,3 @@ class DicLoadingSpinner(object):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.spinner.stop()
-        self.spinner.clear()

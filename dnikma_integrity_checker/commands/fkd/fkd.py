@@ -23,6 +23,11 @@ def fkd():
         return
 
     with DicLoadingSpinner():
-        curs = db.query(query)
-        r = curs.fetchall()
-        dicprint_table(r, ["table_name", "constraint_name"])
+        rows = _run_fkd(db)
+    dicprint_table(rows, ["table_name", "constraint_name"])
+
+
+def _run_fkd(db) -> []:
+    curs = db.query(query)
+    r = curs.fetchall()
+    return r

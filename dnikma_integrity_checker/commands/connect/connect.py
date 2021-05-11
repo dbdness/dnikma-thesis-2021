@@ -3,7 +3,7 @@ The entry point and feature configurations for the 'connect' commands, to handle
 """
 from nubia import command, argument, context
 
-from dnikma_integrity_checker.helpers.utils import dicprint, Severity
+from dnikma_integrity_checker.helpers.utils import dicprint, Severity, DicLoadingSpinner
 from dnikma_integrity_checker.shell.configs.dic_context import DicContext
 from .mysql.mysql_conn import mysql_conn, MySQLConn
 
@@ -25,7 +25,7 @@ def connect_mysql(connection_string: str):
                  Severity.ERROR)
         return
 
-    parsed = __parse_conn_str(connection_string)
+    parsed = _parse_conn_str(connection_string)
 
     if not parsed:
         dicprint("Error: Connection string could not be parsed. Please be sure to follow the format as specified "
@@ -39,7 +39,7 @@ def connect_mysql(connection_string: str):
     open_connection(parsed)
 
 
-def __parse_conn_str(conn_string: str) -> dict:
+def _parse_conn_str(conn_string: str) -> dict:
     params = {}
     try:
         params = dict(entry.split('=') for entry in conn_string.split(';') if entry)
@@ -51,7 +51,8 @@ def open_connection(params) -> MySQLConn:
     ctx: DicContext = context.get_context()
     verbose = ctx.args.verbose
     try:
-        db = mysql_conn.connect(params, verbose)
+        with DicLoadingSpinner():
+            db = mysql_conn.connect(params, verbose)
         dicprint(
             f"Connection to MySQL instance {params.get('database')}@{params.get('host')} successfully established.",
             Severity.SUCCESS)
