@@ -6,7 +6,7 @@ from nubia import command, context
 from dnikma_integrity_checker.helpers.utils import dicprint_table, db_ok, read_sql_file, DicLoadingSpinner
 from dnikma_integrity_checker.shell.configs.dic_context import DicContext
 
-query = read_sql_file('fkd.sql')
+_query = read_sql_file('fkd.sql')
 
 
 @command('fkd')
@@ -23,11 +23,11 @@ def fkd():
         return
 
     with DicLoadingSpinner():
-        rows = _run_fkd(db)
+        rows = run_fkd(db)
     dicprint_table(rows, ["table_name", "constraint_name"])
 
 
-def _run_fkd(db) -> []:
-    curs = db.query(query)
+def run_fkd(db) -> []:
+    curs = db.query(_query)
     r = curs.fetchall()
     return r

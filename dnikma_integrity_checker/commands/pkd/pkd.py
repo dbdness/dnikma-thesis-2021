@@ -6,7 +6,7 @@ from nubia import command, context
 from dnikma_integrity_checker.helpers.utils import dicprint_table, db_ok, read_sql_file, DicLoadingSpinner
 from dnikma_integrity_checker.shell.configs.dic_context import DicContext
 
-query = read_sql_file('pkd.sql')
+_query = read_sql_file('pkd.sql')
 
 
 @command('pkd')
@@ -23,11 +23,11 @@ def pkd():
         return
 
     with DicLoadingSpinner():
-        rows = _run_pkd(db)
+        rows = run_pkd(db)
     dicprint_table(rows, ["column_name", "table_name", "data_type"])
 
 
-def _run_pkd(db) -> []:
-    curs = db.query(query)
+def run_pkd(db) -> []:
+    curs = db.query(_query)
     r = curs.fetchall()
     return r

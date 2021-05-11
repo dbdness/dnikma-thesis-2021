@@ -25,7 +25,7 @@ def dicprint(txt, severity: Severity):
 
 def dicprint_table(rows: [], columns: [], row_numbers: bool = False):
     if row_numbers:
-        columns.insert(0, '#')
+        columns = columns.insert(0, '#')
     table = PrettyTable(columns)
     table.align = 'l'
     for row in rows:
@@ -33,7 +33,7 @@ def dicprint_table(rows: [], columns: [], row_numbers: bool = False):
     dicprint(table, Severity.NONE)
 
 
-def stringify_query_build_rows(qb_rows: [], order_by_desc: str = None) -> str:
+def _stringify_query_build_rows(qb_rows: [], order_by_desc: str = None) -> str:
     """
     'Stringify' supplied rows by concatenating them, removing the final, dangling 'UNION ALL' keyword, and
     optionally appending an 'ORDER BY' clause.
@@ -48,13 +48,35 @@ def stringify_query_build_rows(qb_rows: [], order_by_desc: str = None) -> str:
     return qb_str
 
 
-def assign_row_numbers(rows: []) -> []:
+def _assign_row_numbers(rows: []) -> []:
     """
     Append enumerator index (start 1) to each tuple element in supplied list.
     :param rows: MySQL runner query execution output; a list of tuples.
     :return: A new list of tuples with enumerated index number appended as the first item.
     """
     return [(idx,) + row for idx, row in enumerate(rows, start=1)]
+
+
+def run_query_builder(db, query, assign_row_numbers: bool = False, order_by_desc: str = None) -> []:
+    """
+    Helper-function for running the typical dnikma query builder algorithms.
+    Stringifies and optionally assigns row numbers to output.
+    :param assign_row_numbers: (optional) Assigns row numbers to output tuples if True.
+    :param db: MySqlConn database object.
+    :param query: SQL query to execute.
+    :param order_by_desc: (optional) Appends 'ORDER BY' specified field (descending), if True.
+    :return: A list of rows as tuples, optionally index numbered.
+    """
+    # Query build & stringify
+    curs = db.query(query)  # params={'pk_nullable': 'NO'})
+    rows = curs.fetchall()
+    qb_str = _stringify_query_build_rows(rows, order_by_desc=order_by_desc)
+    # Executing mass query
+    curs = db.query(qb_str)
+    rows = curs.fetchall()
+    if assign_row_numbers:
+        rows = _assign_row_numbers(rows)
+    return rows
 
 
 def get_row_at_pos(nrows: [], pos: int) -> ():
