@@ -25,7 +25,8 @@ def dicprint(txt, severity: Severity):
 
 def dicprint_table(rows: [], columns: [], row_numbers: bool = False):
     if row_numbers:
-        columns = columns.insert(0, '#')
+        columns = columns.copy()
+        columns.insert(0, '#')
     table = PrettyTable(columns)
     table.align = 'l'
     for row in rows:
