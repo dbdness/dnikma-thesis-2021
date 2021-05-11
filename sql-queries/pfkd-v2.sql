@@ -55,6 +55,5 @@ AND cr.column_name NOT IN (
 WHERE
     cl.table_schema = DATABASE()
     AND cr.table_schema = DATABASE()
-	AND cl.is_nullable = %(pk_nullable)s
 ORDER BY
     cr.table_schema;
