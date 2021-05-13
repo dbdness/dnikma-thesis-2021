@@ -52,6 +52,7 @@ AND cr.column_name NOT IN (
 		table_schema = DATABASE()
 		AND index_name = 'primary'
 	)
+AND cr.column_name LIKE '%id%' -- < Flag is here
 WHERE
     cl.table_schema = DATABASE()
     AND cr.table_schema = DATABASE()

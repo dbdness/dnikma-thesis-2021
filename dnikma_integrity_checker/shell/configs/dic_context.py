@@ -1,5 +1,7 @@
 from nubia import context
 
+from dnikma_integrity_checker.commands.connect.mysql.mysql_conn import MySQLConn
+
 
 class DicContext(context.Context):
     """
@@ -14,8 +16,11 @@ class DicContext(context.Context):
         super().__init__()
         self.obj = {}
 
-    # def set_db(self, db):
-    #     self.obj = db
-    #
-    # def get_db(self):
-    #     return self.obj
+    def store_obj(self, key: str, obj):
+        self.obj[key] = obj
+
+    def get_obj(self, key):
+        return self.obj.get(key)
+
+    def get_mysql(self) -> MySQLConn:
+        return self.obj.get('mysql')
