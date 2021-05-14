@@ -1,6 +1,6 @@
 from nubia import context
 
-from dnikma_integrity_checker.commands.connect.mysql.mysql_conn import MySQLConn
+from dnikma_integrity_checker.commands.db_connect.mysql.mysql_conn import MySQLConn
 
 
 class DicContext(context.Context):

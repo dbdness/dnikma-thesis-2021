@@ -1,5 +1,5 @@
 """
-The entry point and feature configurations for the 'connect' commands, to handle connections to database instances.
+The entry point and feature configurations for the 'db-connect' commands, to handle connections to database instances.
 """
 from nubia import command, argument, context
 
@@ -11,7 +11,7 @@ from .mysql.mysql_conn import mysql_conn, MySQLConn
 @command()
 @argument('connection_string', type=str, positional=True,
           description="Format: host=myHostAddress;database=myDatabase;user=myUsername;password=myPassword;")
-def connect_mysql(connection_string: str):
+def db_connect(connection_string: str):
     """
     Connect to specified MySQL instance using a connection string.
     Most commands in this tool are dependent on an active MySQL connection.

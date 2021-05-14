@@ -1,6 +1,6 @@
 from nubia import command, argument
 
-from ..connect.connect import open_connection
+from ..db_connect.db_connect import open_connection
 
 
 @command(':development')
