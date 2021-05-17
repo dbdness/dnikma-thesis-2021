@@ -30,6 +30,7 @@ class MySQLConn(object):
                 self.curs.execute('SELECT VERSION()')
                 self.curs.fetchone()
                 if self.verbose:
+                    print()  # Blank line for output prettify
                     dicprint("Connection details:", Severity.INFO)
                     dicprint(f'{conn_args}', Severity.INFO)
             except(Exception, mysql.connector.Error) as ex:
@@ -55,6 +56,7 @@ class MySQLConn(object):
             return None
         self.curs.execute(sql, params, multi=multi)
         if self.verbose:
+            print()
             dicprint('Statement executed:', Severity.INFO)
             dicprint(self.curs.statement, Severity.INFO)
         return self.curs
