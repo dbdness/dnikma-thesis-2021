@@ -32,11 +32,11 @@ class Orphaned:
         return self._db
 
     @command()
-    @argument('pk_ids',
+    @argument('pfk_ids',
               description='Comma-separated IDs from the "pfkd" command output. Format example: "5, 18, 38".',
               positional=True,
               type=str)
-    def pfkd(self, pk_ids):
+    def pfkd(self, pfk_ids):
         """
         Find orphaned records from parent/child record output from the 'pfkd' command.
         Note that the "pfkd" command must be run at least once before this command.
