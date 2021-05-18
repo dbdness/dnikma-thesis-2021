@@ -4,7 +4,8 @@ SELECT
             'SELECT ''{table}.{col}'' as col, 
                 COUNT(t.{col}) as count_total, 
                 COUNT(DISTINCT t.{col}) as count_distinct, 
-                (COUNT(DISTINCT t.{col}) / COUNT(t.{col})) * 100 as percent_match 
+                (COUNT(DISTINCT t.{col}) / COUNT(t.{col})) * 100 as percent_match,
+                ''{col}'' as ''(helper)col''
             FROM {table} t UNION ALL',
         '{table}',
         cols.table_name

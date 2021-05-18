@@ -33,6 +33,18 @@ def pfkd(name_like_id='NO'):
     if not db_ok(db):
         return
 
+    ids = ['id', '_id', 'test', 'lygtemund']
+    in_placeholders = ', '.join(map(lambda x: '%s', ids))
+
+    q = _query % (in_placeholders, in_placeholders)
+    params = ids
+    params.extend(ids)
+    # params.extend(ids)
+
+    curs = db.query(q, params)
+    r = curs.fetchall()
+    return
+
     rows = _try_get_pks(ctx, db)
     if not rows:
         # No PK constraints or ppkd output. Output error and hint and return early.
@@ -84,4 +96,5 @@ def _try_get_pks(ctx: DicContext, db) -> []:
     if not rows:
         # No PK constraints. Attempt to get ppkd output
         rows = ctx.get_obj('ppkd_out')
+        pk_cols = [r[5:5] for r in rows]
     return rows
