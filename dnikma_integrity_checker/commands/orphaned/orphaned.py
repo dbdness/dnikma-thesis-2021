@@ -47,12 +47,21 @@ class Orphaned:
         ids = [i.strip() for i in pk_ids.split(',')]
         try:
             ids = [int(i) for i in ids]
-        except ValueError:
+            if not ids:
+                raise ValueError
+        except (ValueError, TypeError):
             dicprint("Error: One or more supplied IDs are not convertible to integer type.", Severity.ERROR)
             dicprint("Please supply only comma-separated numbers as an argument.", Severity.INFO)
+            return
+
+        pfkd_out = self.ctx.get_obj('pfkd_out')
+        if not pfkd_out:
+            dicprint("Error: Could not find 'pfkd' output results", Severity.ERROR)
+            dicprint("Please make sure to run the 'pfkd' command with valid output before running this command.",
+                     Severity.INFO)
+            return
 
         with DicLoadingSpinner():
-            pfkd_out = self.ctx.get_obj('pfkd_out')
             pfkd_out = [get_row_at_pos(pfkd_out, i) for i in ids]
             pairs = [p[-4:] for p in pfkd_out]  # Stripping all but last 4 helper-columns
 
@@ -81,7 +90,7 @@ class Orphaned:
 
         if (not mp or not mc) or (len(mp) < 2 or len(mc) < 2):
             dicprint("Error: Could not parse input parent- or child tables and columns.", Severity.ERROR)
-            dicprint('Please make sure to follow the format of: "{parent_table}.{parent_column"', Severity.INFO)
+            dicprint('Please make sure to follow the format of: "{parent_table}.{parent_column}"', Severity.INFO)
             return
 
         pairs = [(mp + mc)]  # Transforming pairs to fit the _query_builder function
@@ -89,15 +98,16 @@ class Orphaned:
         with DicLoadingSpinner():
             qb_rows = _run_orphaned(pairs, self._query_builder)
             if None in qb_rows:
-                dicprint("Error: Could not find specified table/column combinations in the current schema.",
-                         Severity.ERROR)
+                dicprint("Error: Database engine returned NULL.", Severity.ERROR)
+                dicprint("It is possible that the specified table/column combinations could not be found "
+                         "in the current schema.", Severity.ERROR)
                 dicprint(f"Please verify input parent/child table/column combinations: {mp}, {mc}",
                          Severity.INFO)
                 return
             orows = _run_orphaned(qb_rows, self._orphaned)
         dicprint_table(orows, orphaned_cols)
 
-    def _query_builder(self, pairs: []):
+    def _query_builder(self, pairs: []) -> []:
         rows = []
         for p in pairs:
             curs = self.db.query(query, params={'child_tab': p[2],
@@ -118,6 +128,12 @@ class Orphaned:
 
 
 def _run_orphaned(elements: [], inner_func) -> []:
+    """
+    Wrapper function for orphaned functionality, contains error handling.
+    :param elements: List of elements to pass to specified function.
+    :param inner_func: Orphaned-related function, must accept a list of elements.
+    :return: List of database engine output rows.
+    """
     rows = []
     try:
         rows = inner_func(elements)
