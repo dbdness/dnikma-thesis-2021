@@ -24,7 +24,6 @@ def ppkd(nullable='NO'):
 
     DISCLAIMER: Results may vary between different schemas. Please validate the outcome of this command before
     applying it to your own schema.
-    --------------------------------------------------------------------------------------------------------------------
     """
     ctx: DicContext = context.get_context()
     db = ctx.get_mysql()
