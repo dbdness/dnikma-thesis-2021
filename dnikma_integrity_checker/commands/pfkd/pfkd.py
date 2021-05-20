@@ -56,7 +56,7 @@ def pfkd(name_like_id='NO', potential_pks='NO'):
                 ctx.store_obj('pfkd_out', nrows)
                 nrows_stripped = [r[:-4] for r in nrows]
             dicprint_table(nrows_stripped, _pfkd_cols, row_numbers=True)
-        if potential_pks == 'YES':
+        elif potential_pks == 'YES':
             with DicLoadingSpinner():
                 nrows = _f_potential_pks(ctx, db)
                 if nrows == None:
