@@ -3,7 +3,7 @@ SELECT
         REPLACE (
             REPLACE (
                 REPLACE (
-                    'SELECT ''{Ltable}.{Lcol}'' as left_col, ''{Rtable}.{Rcol}'' as right_col, 
+                    'SELECT ''{Ltable}.{Lcol}'' as left_col, ''{Rtable}.{Rcol}'' as right_col,
                         COUNT(l.{Lcol}) as count_left, 
                         COUNT(r.{Rcol}) as count_right, 
                         COUNT(r.{Rcol})-COUNT(l.{Lcol}) as diff_equal, 
@@ -14,7 +14,9 @@ SELECT
                             THEN 0 
                             ELSE COUNT(l.{Lcol})/COUNT(r.{Rcol})
                             END 
-                        AS percent_match
+                        AS percent_match,
+                        ''{Ltable}'' as ''lt(helper)'', ''{Lcol}'' as ''lc(helper)'', 
+                        ''{Rtable}'' as ''rt(helper)'', ''{Rcol}'' as ''rc(helper)''
                     FROM {Ltable} l 
                     RIGHT JOIN {Rtable} r ON l.{Lcol} = r.{Rcol} 
                     UNION ALL',
