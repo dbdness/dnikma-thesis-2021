@@ -61,10 +61,14 @@ class Orphaned:
                      Severity.INFO)
             return
 
+        pfkd_out = [get_row_at_pos(pfkd_out, i) for i in ids]
+        if any(r is None for r in pfkd_out):
+            dicprint(
+                "Please make sure that the 'pfkd' command has been run with valid output before this command, "
+                "and that the specified row number(s) was present in the output.", Severity.INFO)
+            return
         with DicLoadingSpinner():
-            pfkd_out = [get_row_at_pos(pfkd_out, i) for i in ids]
             pairs = [p[-4:] for p in pfkd_out]  # Stripping all but last 4 helper-columns
-
             qb_rows = _run_orphaned(pairs, self._query_builder)
             orows = _run_orphaned(qb_rows, self._orphaned)
         dicprint_table(orows, orphaned_cols)
@@ -95,9 +99,10 @@ class Orphaned:
 
         pairs = [(mp + mc)]  # Transforming pairs to fit the _query_builder function
 
-        with DicLoadingSpinner():
+        with DicLoadingSpinner() as dls:
             qb_rows = _run_orphaned(pairs, self._query_builder)
             if None in qb_rows:
+                dls.stop()
                 dicprint("Error: Database engine returned NULL.", Severity.ERROR)
                 dicprint("It is possible that the specified table/column combinations could not be found "
                          "in the current schema.", Severity.ERROR)

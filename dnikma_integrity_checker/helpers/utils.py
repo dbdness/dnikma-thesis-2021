@@ -89,10 +89,7 @@ def get_row_at_pos(nrows: [], pos: int) -> ():
     """
     row = [r for r in nrows if r[0] == pos]
     if not row:
-        dicprint(f'Error: The specified output row number of {pos} could not be found.', Severity.ERROR)
-        dicprint(
-            "Please make sure that an appropriate command (such as 'pfkd' or 'ppkd') with valid output has been run "
-            "before this command, and that the specified row number was present.", Severity.INFO)
+        dicprint(f"Error: The specified output row number of {pos} could not be found.", Severity.ERROR)
         return None
     return row[0]
 
