@@ -44,7 +44,7 @@ class Orphaned:
         if not db_ok(self.db):
             return
 
-        ids = [i.strip() for i in pk_ids.split(',')]
+        ids = [i.strip() for i in pfk_ids.split(',')]
         try:
             ids = [int(i) for i in ids]
             if not ids:
