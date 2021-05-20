@@ -14,7 +14,9 @@ SELECT
                             THEN 0
                             ELSE COUNT(l.{Lcol})/COUNT(r.{Rcol})
                             END
-                        AS percent_match
+                        AS percent_match,
+                        ''{Ltable}'' as ''lt(helper)'', ''{Lcol}'' as ''lc(helper)'', 
+                        ''{Rtable}'' as ''rt(helper)'', ''{Rcol}'' as ''rc(helper)''
                     FROM {Ltable} l
                     RIGHT JOIN {Rtable} r ON l.{Lcol} = r.{Rcol}
                     UNION ALL',

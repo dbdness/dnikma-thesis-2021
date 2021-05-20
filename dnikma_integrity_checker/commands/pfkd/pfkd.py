@@ -54,7 +54,7 @@ def pfkd(name_like_id='NO', potential_pks='NO'):
             with DicLoadingSpinner():
                 nrows = _f_name_like_id(db)
                 ctx.store_obj('pfkd_out', nrows)
-            nrows_stripped = [r[:-4] for r in nrows]
+                nrows_stripped = [r[:-4] for r in nrows]
             dicprint_table(nrows_stripped, _pfkd_cols, row_numbers=True)
         if potential_pks == 'YES':
             with DicLoadingSpinner():
@@ -63,7 +63,7 @@ def pfkd(name_like_id='NO', potential_pks='NO'):
                     return
                 ctx.store_obj('pfkd_out', nrows)
                 nrows_stripped = [r[:-4] for r in nrows]
-            dicprint_table(nrows, _pfkd_cols, row_numbers=True)
+            dicprint_table(nrows_stripped, _pfkd_cols, row_numbers=True)
         else:
             # No flag, normal execution
             with DicLoadingSpinner():
