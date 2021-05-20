@@ -52,7 +52,7 @@ def open_connection(params) -> MySQLConn:
     verbose = ctx.args.verbose
     try:
         with DicLoadingSpinner():
-            db = mysql_conn.connect(params, verbose)
+            db = mysql_conn.connect(params)
         dicprint(
             f"Connection to MySQL instance {params.get('database')}@{params.get('host')} successfully established.",
             Severity.SUCCESS)

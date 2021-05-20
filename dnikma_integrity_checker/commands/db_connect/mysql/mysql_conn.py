@@ -1,4 +1,5 @@
 import mysql.connector
+from nubia import context
 
 from dnikma_integrity_checker.helpers.utils import dicprint, Severity
 
@@ -6,11 +7,20 @@ from dnikma_integrity_checker.helpers.utils import dicprint, Severity
 class MySQLConn(object):
 
     def __init__(self):
-        self.conn = None
-        self.curs = None
-        self.verbose = 0
+        self._conn = None
+        self._curs = None
+        self._verbose = 0
 
-    def connect(self, conn_args: dict, verbose: int):
+    @property
+    def verbose(self) -> int:
+        try:
+            self._verbose = context.get_context().args.verbose
+        except:
+            self._verbose = 0
+        finally:
+            return self._verbose
+
+    def connect(self, conn_args: dict):
         """
         Connect to a specified MySQL instance.
         :param conn_args: Connection arguments in the format:
@@ -18,17 +28,16 @@ class MySQLConn(object):
         :param verbose: Verbosity level. Accepts 1 or 0.
         :return: Connection wrapped in a MySQLConn object.
         """
-        self.verbose = verbose
-        if self.conn is None:
+        if self._conn is None:
             if conn_args is None:
                 raise Exception("No connection arguments provided, and MySQL connection is none.\n",
                                 "Please provide connection kwargs.")
             try:
-                self.conn = mysql.connector.connect(**conn_args)
-                self.conn.autocommit = True
-                self.curs = self.conn.cursor()
-                self.curs.execute('SELECT VERSION()')
-                self.curs.fetchone()
+                self._conn = mysql.connector.connect(**conn_args)
+                self._conn.autocommit = True
+                self._curs = self._conn.cursor()
+                self._curs.execute('SELECT VERSION()')
+                self._curs.fetchone()
                 if self.verbose:
                     print()  # Blank line for output prettify
                     dicprint("Connection details:", Severity.INFO)
@@ -50,16 +59,15 @@ class MySQLConn(object):
         for(first_name, last_name) in curs:
             print(first_name, last_name)
         """
-        if self.conn is None:
-            dicprint("MySQL connection is None, cannot execute query. Please run the connect() function first.",
-                     Severity.ERROR)
-            return None
-        self.curs.execute(sql, params, multi=multi)
+        if self._conn is None:
+            raise Exception("MySQL connection is None, cannot execute query. Please run the connect() function first.")
+
+        self._curs.execute(sql, params, multi=multi)
         if self.verbose:
             print()
             dicprint('Statement executed:', Severity.INFO)
-            dicprint(self.curs.statement, Severity.INFO)
-        return self.curs
+            dicprint(self._curs.statement, Severity.INFO)
+        return self._curs
 
 
 # Singleton initialization

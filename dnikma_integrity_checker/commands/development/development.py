@@ -1,4 +1,4 @@
-from nubia import command, argument, context
+from nubia import command, argument
 
 from ..db_connect.db_connect import open_connection
 
@@ -12,5 +12,4 @@ def development(schema: str = 'northwind_nofks'):
     A MySQL connection to a local development schema will be established.
     --------------------------------------------------------------------------------------------------------------------
     """
-    context.get_context().args.verbose = 1
     open_connection({'host': '127.0.0.1', 'database': schema, 'user': 'root'})
