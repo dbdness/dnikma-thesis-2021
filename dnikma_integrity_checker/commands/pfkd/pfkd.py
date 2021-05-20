@@ -10,6 +10,7 @@ from dnikma_integrity_checker.shell.configs.dic_context import DicContext
 
 _query = read_sql_file('pfkd-v2.sql')
 _query_f_name_like_id = read_sql_file('pfkd-flags/name-like-id.sql')
+_query_f_potential_pks = read_sql_file('pfkd-flags/potential-pks.sql')
 _pfkd_cols = ['left_col', 'right_col', 'count_left', 'count_right', 'diff_equal', 'distinct_left',
               'distinct_right', 'diff_distinct', 'percent_match']
 
@@ -18,7 +19,10 @@ _pfkd_cols = ['left_col', 'right_col', 'count_left', 'count_right', 'diff_equal'
 @argument('name_like_id',
           description="Consider only columns with a name pattern like “%id%” as potential foreign keys.",
           choices=['YES', 'NO'])
-def pfkd(name_like_id='NO'):
+@argument('potential_pks',
+          description='Detect and use potential primary keys in the potential foreign key detection. NOTE: Before using this argument, make sure you have run the "ppkd" command at least once.',
+          choices=['YES', 'NO'])
+def pfkd(name_like_id='NO', potential_pks='NO'):
     """
     Find potential foreign key combinations in the current schema.
     This feature is powered by dnikma's Potential Foreign Key Detection (PfkD) algorithm.
@@ -33,13 +37,14 @@ def pfkd(name_like_id='NO'):
     if not db_ok(db):
         return
 
-    rows = _try_get_pks(ctx, db)
+    rows = _try_get_pks(db)
     if not rows:
         # No PK constraints or ppkd output. Output error and hint and return early.
         dicprint("Error: No primary keys could be found in the current schema.", Severity.ERROR)
         dicprint("Primary keys are necessary for outputting optimal potential foreign keys pais.", Severity.INFO)
         dicprint("Please either create primary key constraints in the current schema manually, or run the 'ppkd' "
-                 "command before this command.", Severity.INFO)
+                 "command before this command. Use the argument 'potential-pks=YES' together with the 'ppkd' comand.",
+                 Severity.INFO)
         return
         # PKs okay, continue pfkd
     try:
@@ -47,6 +52,19 @@ def pfkd(name_like_id='NO'):
             # FLAG: name-like-id
             with DicLoadingSpinner():
                 nrows = _f_name_like_id(db)
+                ctx.store_obj('pfkd_out', nrows)
+                nrows_stripped = [r[:-4] for r in nrows]
+            dicprint_table(nrows_stripped, _pfkd_cols, row_numbers=True)
+        elif potential_pks == 'YES':
+            ppkd_rows = ctx.get_obj('ppkd_out')
+            if ppkd_rows is None:
+                dicprint("Error: No previous run of 'ppkd' has been found.", Severity.ERROR)
+                dicprint("Please run the 'ppkd' command before using the argument 'potential_pks'.", Severity.INFO)
+                return
+            with DicLoadingSpinner():
+                nrows = _f_potential_pks(ppkd_rows, db)
+                if nrows is None:
+                    return
                 ctx.store_obj('pfkd_out', nrows)
                 nrows_stripped = [r[:-4] for r in nrows]
             dicprint_table(nrows_stripped, _pfkd_cols, row_numbers=True)
@@ -80,10 +98,20 @@ def _f_name_like_id(db) -> []:
     return nrows
 
 
-def _try_get_pks(ctx: DicContext, db) -> []:
+def _try_get_pks(db) -> []:
     # Attempt to get PK constraints
     rows = run_pkd(db)
     if not rows:
-        # No PK constraints. Attempt to get ppkd output
-        rows = ctx.get_obj('ppkd_out')
+        return None
     return rows
+
+
+def _f_potential_pks(ppkd_rows: [], db) -> []:
+    pk_col = [r[4:] for r in ppkd_rows]  # Gets the right column
+    string_arr = [''.join(i) for i in pk_col]  # Converts tuple array to string array
+    in_placeholders = ', '.join(map(lambda x: '%s', string_arr))  # Adding x number of %s placeholders
+    query = _query_f_potential_pks % (in_placeholders, in_placeholders)  # Inserting the placeholders
+    params = string_arr
+    params.extend(string_arr)
+    nrows = run_query_builder(db, query, assign_row_numbers=True, order_by_desc='percent_match', params=params)
+    return nrows
