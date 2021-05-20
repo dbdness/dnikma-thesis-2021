@@ -58,7 +58,7 @@ def _assign_row_numbers(rows: []) -> []:
     return [(idx,) + row for idx, row in enumerate(rows, start=1)]
 
 
-def run_query_builder(db, query, assign_row_numbers: bool = False, order_by_desc: str = None) -> []:
+def run_query_builder(db, query, assign_row_numbers: bool = False, order_by_desc: str = None, params=()) -> []:
     """
     Helper-function for running the typical dnikma query builder algorithms.
     Stringifies and optionally assigns row numbers to output.
@@ -69,7 +69,7 @@ def run_query_builder(db, query, assign_row_numbers: bool = False, order_by_desc
     :return: A list of rows as tuples, optionally index numbered.
     """
     # Query build & stringify
-    curs = db.query(query)  # params={'pk_nullable': 'NO'})
+    curs = db.query(query, params)  # params={'pk_nullable': 'NO'})
     rows = curs.fetchall()
     qb_str = _stringify_query_build_rows(rows, order_by_desc=order_by_desc)
     # Executing mass query
