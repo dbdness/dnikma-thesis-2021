@@ -24,7 +24,7 @@ def pkd():
 
     with DicLoadingSpinner():
         rows = run_pkd(db)
-    dicprint_table(rows, ["column_name", "table_name", "data_type"])
+    dicprint_table(rows, ["table_name", "column_name", "data_type"])
 
 
 def run_pkd(db) -> []:

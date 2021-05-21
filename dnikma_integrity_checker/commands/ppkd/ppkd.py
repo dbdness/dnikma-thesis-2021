@@ -10,7 +10,7 @@ from dnikma_integrity_checker.shell.configs.dic_context import DicContext
 
 _query = read_sql_file('ppkd.sql')
 _query_f_nullable = read_sql_file('ppkd-flags/nullable.sql')
-_ppkd_cols = ['col', 'count_total', 'count_distinct', 'percent_match']
+_ppkd_cols = ['column_name', 'count_total', 'count_distinct', 'percent_match']
 
 
 @command('ppkd')
