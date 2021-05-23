@@ -12,7 +12,7 @@ _query = read_sql_file('pfkd-v2.sql')
 _query_f_name_like_id = read_sql_file('pfkd-flags/name-like-id.sql')
 _query_f_potential_pks = read_sql_file('pfkd-flags/potential-pks.sql')
 _pfkd_cols = ['left_col', 'right_col', 'count_left', 'count_right', 'diff_equal', 'distinct_left',
-              'distinct_right', 'diff_distinct', 'percent_match']
+              'distinct_right', 'diff_distinct', 'percent_match', 'percent_match_distinct']
 
 
 @command('pfkd')
@@ -87,14 +87,14 @@ def pfkd(name_like_id='NO', potential_pks='NO'):
 def run_pfkd(db) -> []:
     nrows = run_query_builder(db, _query,
                               assign_row_numbers=True,
-                              order_by_desc='percent_match')
+                              order_by_desc='percent_match_distinct')
     return nrows
 
 
 def _f_name_like_id(db) -> []:
     nrows = run_query_builder(db, _query_f_name_like_id,
                               assign_row_numbers=True,
-                              order_by_desc='percent_match')
+                              order_by_desc='percent_match_distinct')
     return nrows
 
 
@@ -113,5 +113,5 @@ def _f_potential_pks(ppkd_rows: [], db) -> []:
     query = _query_f_potential_pks % (in_placeholders, in_placeholders)  # Inserting the placeholders
     params = string_arr
     params.extend(string_arr)
-    nrows = run_query_builder(db, query, assign_row_numbers=True, order_by_desc='percent_match', params=params)
+    nrows = run_query_builder(db, query, assign_row_numbers=True, order_by_desc='percent_match_distinct', params=params)
     return nrows

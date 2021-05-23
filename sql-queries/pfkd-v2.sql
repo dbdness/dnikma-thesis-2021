@@ -15,6 +15,11 @@ SELECT
                             ELSE COUNT(l.{Lcol})/COUNT(r.{Rcol})
                             END 
                         AS percent_match,
+						CASE WHEN COUNT(DISTINCT(l.{Lcol})) = 0
+						    THEN 0
+							ELSE COUNT(DISTINCT(l.{Lcol}))/COUNT(DISTINCT(r.{Rcol}))
+							END
+						AS percent_match_distinct,
                         ''{Ltable}'' as ''lt(helper)'', ''{Lcol}'' as ''lc(helper)'', 
                         ''{Rtable}'' as ''rt(helper)'', ''{Rcol}'' as ''rc(helper)''
                     FROM {Ltable} l 
