@@ -22,6 +22,6 @@ FROM
 WHERE
     cols.table_schema = DATABASE()
     AND cols.is_nullable = 'NO'
-    AND cols.data_type NOT IN ( 'datetime', 'timestamp', 'money', 'text', 'lontext', 'longblob', 'blob', 'decimal' )
+    AND cols.data_type NOT IN ( 'datetime', 'date', 'timestamp', 'money', 'text', 'longtext', 'longblob', 'blob', 'decimal' )
 ORDER BY
     cols.table_schema ASC;

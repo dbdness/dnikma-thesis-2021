@@ -20,7 +20,8 @@ _pfkd_cols = ['left_col', 'right_col', 'count_left', 'count_right', 'diff_equal'
           description="Consider only columns with a name pattern like “%id%” as potential foreign keys.",
           choices=['YES', 'NO'])
 @argument('potential_pks',
-          description='Detect and use potential primary keys in the potential foreign key detection. NOTE: Before using this argument, make sure you have run the "ppkd" command at least once.',
+          description='Detect and use potential primary keys in the potential foreign key detection. '
+                      'NOTE: Before using this argument, make sure you have run the "ppkd" command at least once.',
           choices=['YES', 'NO'])
 def pfkd(name_like_id='NO', potential_pks='NO'):
     """
@@ -110,8 +111,7 @@ def _f_potential_pks(ppkd_rows: [], db) -> []:
     pk_col = [r[4:] for r in ppkd_rows]  # Gets the right column
     string_arr = [''.join(i) for i in pk_col]  # Converts tuple array to string array
     in_placeholders = ', '.join(map(lambda x: '%s', string_arr))  # Adding x number of %s placeholders
-    query = _query_f_potential_pks % (in_placeholders, in_placeholders)  # Inserting the placeholders
+    query = _query_f_potential_pks % in_placeholders  # Inserting the placeholders
     params = string_arr
-    params.extend(string_arr)
     nrows = run_query_builder(db, query, assign_row_numbers=True, order_by_desc='percent_match_distinct', params=params)
     return nrows

@@ -50,18 +50,10 @@ AND cl.column_name IN (
 		table_schema = DATABASE()
 		AND index_name = 'primary'
 	)
-AND cr.column_name NOT IN (
-	SELECT
-		DISTINCT column_name
-	FROM
-		information_schema.statistics
-	WHERE
-		table_schema = DATABASE()
-		AND index_name = 'primary'
-	)
 AND cr.column_name LIKE '%id%' -- < Flag is here
 WHERE
     cl.table_schema = DATABASE()
     AND cr.table_schema = DATABASE()
+    AND cl.data_type NOT IN ( 'datetime', 'date', 'timestamp', 'money', 'text', 'longtext', 'longblob', 'blob', 'decimal' )
 ORDER BY
     cr.table_schema;
