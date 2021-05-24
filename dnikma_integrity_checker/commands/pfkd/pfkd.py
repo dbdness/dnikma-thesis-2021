@@ -111,7 +111,8 @@ def _f_potential_pks(ppkd_rows: [], db) -> []:
     pk_col = [r[4:] for r in ppkd_rows]  # Gets the right column
     string_arr = [''.join(i) for i in pk_col]  # Converts tuple array to string array
     in_placeholders = ', '.join(map(lambda x: '%s', string_arr))  # Adding x number of %s placeholders
-    query = _query_f_potential_pks % in_placeholders  # Inserting the placeholders
+    query = _query_f_potential_pks % (in_placeholders, in_placeholders) # Inserting the placeholders
     params = string_arr
+    params.extend(string_arr)
     nrows = run_query_builder(db, query, assign_row_numbers=True, order_by_desc='percent_match_distinct', params=params)
     return nrows

@@ -42,9 +42,9 @@ FROM
     INNER JOIN information_schema.COLUMNS cr ON cl.table_name <> cr.table_name
     AND cl.data_type = cr.data_type
 AND cl.column_name IN (%s)
+AND cr.column_name NOT IN (%s)
 WHERE
     cl.table_schema = DATABASE()
     AND cr.table_schema = DATABASE()
-	AND cl.data_type NOT IN ( 'datetime', 'date', 'timestamp', 'money', 'text', 'longtext', 'longblob', 'blob', 'decimal' )
 ORDER BY
     cr.table_schema;
