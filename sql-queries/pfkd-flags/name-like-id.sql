@@ -11,13 +11,13 @@ SELECT
                         @rdis:=COUNT(DISTINCT(r.{Rcol})) as distinct_right, 
                         FORMAT(@rdis-@ldis,0) as diff_distinct,
                         CASE WHEN @rcount = 0 
-                            THEN 0.00 
-                            ELSE FORMAT(@lcount/@rcount, 2)
+                            THEN 0.0000
+                            ELSE FORMAT(@lcount/@rcount,4)
                             END 
                         AS percent_match,
                             CASE WHEN @rdis = 0
-                            THEN 0.00
-                            ELSE FORMAT(@ldis/@rdis, 2)
+                            THEN 0.0000
+                            ELSE FORMAT(@ldis/@rdis,4)
                             END
                         AS percent_match_distinct,
                         ''{Ltable}'' as ''lt(helper)'', ''{Lcol}'' as ''lc(helper)'', 

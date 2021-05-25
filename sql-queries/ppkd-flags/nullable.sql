@@ -5,8 +5,8 @@ SELECT
                 @count:=COUNT(t.{col}) as count_total, 
                 @dis:=COUNT(DISTINCT t.{col}) as count_distinct, 
                 CASE WHEN @count = 0
-                    THEN 0.00
-                    ELSE FORMAT(@dis / @count,2)
+                    THEN 0.0000
+                    ELSE FORMAT(@dis / @count,4)
                     END
                 AS percent_match,
                 ''{col}'' as ''(helper)col''
