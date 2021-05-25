@@ -6,8 +6,8 @@ Danny Nielsen & Kim Meyer Albrechtsen.
 ## Sample Data
 
 ### Northwind MySQL
-The sample data under the *dnikma-thesis-2021/infrastructure/mysql-employees/northwind/* folder is from the [dalers/mywind](https://github.com/dalers/mywind) repository, and has been modified slightly for our purposes. The original work is distributed under the BSD 2-Clause "Simplified" License. To view a copy of this license, visit 
+The sample data under the *dnikma-thesis-2021/infrastructure/northwind/* folder is from the [dalers/mywind](https://github.com/dalers/mywind) repository, and has been modified slightly for our purposes. The original work is distributed under the BSD 2-Clause "Simplified" License. To view a copy of this license, visit 
 https://github.com/dalers/mywind/blob/master/LICENSE.
 
-### MySQL Employees
-The sample data under the *dnikma-thesis-2021/infrastructure/mysql-employees/* folder is from the [datacharmer/test_db](https://github.com/datacharmer/test_db) repository, and has been modified slightly for our purposes. The original work is distributed and licensed under the Creative Commons Attribution-Share Alike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/.
+### MySQL Sakila
+The sample data under the *dnikma-thesis-2021/infrastructure/sakila/* folder is from the [datacharmer/test_db](https://github.com/datacharmer/test_db/tree/master/sakila) repository, and has been modified slightly for our purposes. The original work is distributed and licensed under the Creative Commons Attribution-Share Alike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/.
