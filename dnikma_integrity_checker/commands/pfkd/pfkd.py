@@ -57,6 +57,13 @@ def pfkd(name_like_id='NO', potential_pks='NO'):
                 nrows_stripped = [r[:-4] for r in nrows]
             dicprint_table(nrows_stripped, _pfkd_cols, row_numbers=True)
         elif potential_pks == 'YES':
+            ppkd_nullable_rows = ctx.get_obj('ppkd_nullable_out')
+            if ppkd_nullable_rows:
+                dicprint("Error: The 'pfkd' command cannot be run with potential primary key combinations from 'ppkd' "
+                         "that includes nullable columns. \nThe assumptions of the underlying algorithms would output "
+                         "too many false positives as of this alpha release.", Severity.ERROR)
+                dicprint("Please run the 'ppkd' command without the 'nullable=Yes' flag.", Severity.INFO)
+                return
             ppkd_rows = ctx.get_obj('ppkd_out')
             if ppkd_rows is None:
                 dicprint("Error: No previous run of 'ppkd' has been found.", Severity.ERROR)
@@ -111,7 +118,7 @@ def _f_potential_pks(ppkd_rows: [], db) -> []:
     pk_col = [r[4:] for r in ppkd_rows]  # Gets the right column
     string_arr = [''.join(i) for i in pk_col]  # Converts tuple array to string array
     in_placeholders = ', '.join(map(lambda x: '%s', string_arr))  # Adding x number of %s placeholders
-    query = _query_f_potential_pks % (in_placeholders, in_placeholders) # Inserting the placeholders
+    query = _query_f_potential_pks % (in_placeholders, in_placeholders)  # Inserting the placeholders
     params = string_arr
     params.extend(string_arr)
     nrows = run_query_builder(db, query, assign_row_numbers=True, order_by_desc='percent_match_distinct', params=params)

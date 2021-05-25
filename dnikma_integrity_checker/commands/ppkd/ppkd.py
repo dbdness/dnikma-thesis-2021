@@ -35,12 +35,13 @@ def ppkd(nullable='NO'):
         if nullable == 'YES':
             with DicLoadingSpinner():
                 nrows = _f_nullable(db)
-                ctx.store_obj('ppkd_out', nrows)
+                ctx.store_obj('ppkd_nullable_out', nrows)
                 stripped_rows = [r[:-1] for r in nrows]
             dicprint_table(stripped_rows, _ppkd_cols)
         else:
             with DicLoadingSpinner():
                 nrows = run_ppkd(db)
+                ctx.store_obj('ppkd_nullable_out', None)
                 ctx.store_obj('ppkd_out', nrows)
                 stripped_rows = [r[:-1] for r in nrows]
             dicprint_table(stripped_rows, _ppkd_cols)

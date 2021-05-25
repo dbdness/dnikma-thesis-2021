@@ -2,11 +2,11 @@ SELECT
     REPLACE (
         REPLACE (
             'SELECT ''{table}.{col}'' as col, 
-                COUNT(t.{col}) as count_total, 
-                COUNT(DISTINCT t.{col}) as count_distinct, 
-                CASE WHEN COUNT(t.{col}) = 0
-                    THEN 0
-                    ELSE COUNT(DISTINCT t.{col}) / COUNT(t.{col}) * 100
+                @count:=COUNT(t.{col}) as count_total, 
+                @dis:=COUNT(DISTINCT t.{col}) as count_distinct, 
+                CASE WHEN @count = 0
+                    THEN 0.00
+                    ELSE FORMAT(@dis / @count,2)
                     END
                 AS percent_match,
                 ''{col}'' as ''(helper)col''
