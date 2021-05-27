@@ -62,6 +62,10 @@ class MySQLConn(object):
         if self._conn is None:
             raise Exception("MySQL connection is None, cannot execute query. Please run the connect() function first.")
 
+        if self.verbose:
+            print()
+            dicprint("SQL statement passed to driver:", Severity.INFO)
+            dicprint(sql, Severity.INFO)
         self._curs.execute(sql, params, multi=multi)
         if self.verbose:
             print()

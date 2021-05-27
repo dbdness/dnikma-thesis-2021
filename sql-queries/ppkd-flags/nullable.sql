@@ -2,15 +2,15 @@ SELECT
     REPLACE (
         REPLACE (
             'SELECT ''{table}.{col}'' as col, 
-                @count:=COUNT(t.{col}) as count_total, 
-                @dis:=COUNT(DISTINCT t.{col}) as count_distinct, 
+                @count:=COUNT(t.`{col}`) as count_total, 
+                @dis:=COUNT(DISTINCT t.`{col}`) as count_distinct, 
                 CASE WHEN @count = 0
                     THEN 0.0000
-                    ELSE FORMAT(@dis / @count,4)
+                    ELSE @dis / @count
                     END
                 AS percent_match,
                 ''{col}'' as ''(helper)col''
-            FROM {table} t UNION ALL',
+            FROM `{table}` t UNION ALL',
         '{table}',
         cols.table_name
         ),
