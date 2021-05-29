@@ -32,6 +32,7 @@ class MySQLConn(object):
             if conn_args is None:
                 raise Exception("No connection arguments provided, and MySQL connection is none.\n",
                                 "Please provide connection kwargs.")
+            conn_args['use_pure'] = True  # Using Pure Python to avoid utf-8 decoding errors when passing file queries.
             self._conn = mysql.connector.connect(**conn_args)
             self._conn.autocommit = True
             self._curs = self._conn.cursor()
