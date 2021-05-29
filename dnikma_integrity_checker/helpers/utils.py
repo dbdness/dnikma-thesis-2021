@@ -1,6 +1,7 @@
 """
 Misc. helper utilities.
 """
+import locale
 from enum import Enum
 from pathlib import Path
 
@@ -115,7 +116,8 @@ def read_sql_file(filename: str) -> str:
             dicprint(
                 "Please make sure that a valid folder named 'sql-queries' exists one directory up from "
                 "the main 'dnikma_integrity_checker directory.", Severity.INFO)
-    return file.read_text()
+    print('Default locale: ' + locale.getpreferredencoding())
+    return file.read_text(encoding='utf-8')
 
 
 class DicLoadingSpinner(object):

@@ -28,10 +28,12 @@ class MySQLConn(object):
         :param verbose: Verbosity level. Accepts 1 or 0.
         :return: Connection wrapped in a MySQLConn object.
         """
+
         if self._conn is None:
             if conn_args is None:
                 raise Exception("No connection arguments provided, and MySQL connection is none.\n",
                                 "Please provide connection kwargs.")
+            conn_args['use_pure'] = True
             self._conn = mysql.connector.connect(**conn_args)
             self._conn.autocommit = True
             self._curs = self._conn.cursor()
