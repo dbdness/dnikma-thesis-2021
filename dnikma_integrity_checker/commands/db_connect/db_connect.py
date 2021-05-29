@@ -63,4 +63,5 @@ def open_connection(params) -> MySQLConn:
     except Exception as ex:
         dicprint("Connection to MySQL instance failed. A connection error occurred:", Severity.ERROR)
         dicprint(f'"{ex}"', Severity.NONE)
-        dicprint("Please verify the specified connection string.", Severity.ERROR)
+        dicprint("Please verify the specified connection string and make sure that an active MySQL instance exists on "
+                 "the specified host.", Severity.ERROR)

@@ -32,18 +32,15 @@ class MySQLConn(object):
             if conn_args is None:
                 raise Exception("No connection arguments provided, and MySQL connection is none.\n",
                                 "Please provide connection kwargs.")
-            try:
-                self._conn = mysql.connector.connect(**conn_args)
-                self._conn.autocommit = True
-                self._curs = self._conn.cursor()
-                self._curs.execute('SELECT VERSION()')
-                self._curs.fetchone()
-                if self.verbose:
-                    print()  # Blank line for output prettify
-                    dicprint("Connection details:", Severity.INFO)
-                    dicprint(f'{conn_args}', Severity.INFO)
-            except(Exception, mysql.connector.Error) as ex:
-                dicprint(ex, Severity.ERROR)
+            self._conn = mysql.connector.connect(**conn_args)
+            self._conn.autocommit = True
+            self._curs = self._conn.cursor()
+            self._curs.execute('SELECT VERSION()')
+            self._curs.fetchone()
+            if self.verbose:
+                print()  # Blank line for output prettify
+                dicprint("Connection details:", Severity.INFO)
+                dicprint(f'{conn_args}', Severity.INFO)
         return self
 
     def query(self, sql: str, params=(), multi=False):
@@ -60,7 +57,9 @@ class MySQLConn(object):
             print(first_name, last_name)
         """
         if self._conn is None:
-            raise Exception("MySQL connection is None, cannot execute query. Please run the connect() function first.")
+            raise Exception("Internal error: "
+                            "MySQL connection is None, cannot execute query. "
+                            "The connect() function must be run first.")
 
         if self.verbose:
             print()
