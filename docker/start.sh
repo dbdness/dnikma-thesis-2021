@@ -5,6 +5,7 @@ echo "Starting MySQL server..."
 sleep 5
 echo "Importing sample databases..."
 mysql -u root -t < infrastructure/norhwind/northwind-nofks-setup.sql
+mysql -u root -t < infrastructure/sakila/sakila-dic-schema.sql && mysql -u root -t < infrastructure/sakila/sakila-dic-data.sql
 mysql -u root -e "CREATE USER 'demo'@'localhost' IDENTIFIED BY 'demo'"
 mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'demo'@'localhost'"
 echo "Done!"
