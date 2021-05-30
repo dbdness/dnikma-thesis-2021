@@ -4,17 +4,17 @@ This directory contains a Dockerfile and a setup script dependency for container
 
 
 
-## Build from Docker Hub
+## Run from Docker Hub
 
 It's easiest to pull and run the newest version of the image directly from Docker Hub with the following command:
 
 ```bash
-docker run -it --pull=always --rm dbdness/dic
+$ docker run -it --pull=always --rm dbdness/dic
 ```
 
 
 
- ## Build from Source
+ ## Build and Run from Source
 
 In cases of local testing and debugging, building a local image from source can be preferred. It can be done like so:
 
@@ -26,6 +26,6 @@ $ docker build -t dic .
 Run the image afterwards like so:
 
 ```bash
-docker run -it --rm dic
+$ docker run -it --rm dic
 ```
 
