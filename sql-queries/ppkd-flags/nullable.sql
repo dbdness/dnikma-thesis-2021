@@ -2,13 +2,13 @@ SELECT
     REPLACE (
         REPLACE (
             'SELECT ''{table}.{col}'' as col, 
-                @count:=COUNT(t.`{col}`) as count_total, 
-                @dis:=COUNT(DISTINCT t.`{col}`) as count_distinct, 
-                CASE WHEN @count = 0
-                    THEN 0.0000
-                    ELSE @dis / @count
+                COUNT(t.`{col}`) as count_total, 
+                COUNT(DISTINCT t.`{col}`) as count_distinct, 
+                CASE WHEN COUNT(t.`{col}`) = 0
+                    THEN 0
+                    ELSE COUNT(DISTINCT t.`{col}`) / COUNT(t.`{col}`)
                     END
-                AS percent_match,
+                AS probability,
                 ''{col}'' as ''(helper)col''
             FROM `{table}` t UNION ALL',
         '{table}',

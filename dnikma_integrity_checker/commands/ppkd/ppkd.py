@@ -10,7 +10,7 @@ from dnikma_integrity_checker.shell.configs.dic_context import DicContext
 
 _query = read_sql_file('ppkd.sql')
 _query_f_nullable = read_sql_file('ppkd-flags/nullable.sql')
-_ppkd_cols = ['column_name', 'count_total', 'count_distinct', 'percent_match']
+_ppkd_cols = ['column_name', 'count_total', 'count_distinct', 'probability']
 
 
 @command('ppkd')
@@ -56,10 +56,10 @@ def ppkd(nullable='NO'):
 
 
 def run_ppkd(db) -> []:
-    nrows = run_query_builder(db, _query, assign_row_numbers=False, order_by_desc='percent_match')
+    nrows = run_query_builder(db, _query, assign_row_numbers=False, order_by_desc='probability')
     return nrows
 
 
 def _f_nullable(db) -> []:
-    nrows = run_query_builder(db, _query_f_nullable, assign_row_numbers=False, order_by_desc='percent_match')
+    nrows = run_query_builder(db, _query_f_nullable, assign_row_numbers=False, order_by_desc='probability')
     return nrows
