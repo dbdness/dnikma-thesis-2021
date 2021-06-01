@@ -1,9 +1,9 @@
-# Master Thesis 2021: MySQL Database Integrity Checker
-This repository contains the source code for the product associated with the 2021 master thesis project at Roskilde University, written and developed by 
+# Master Thesis 2021: MySQL Database Integrity Checker (FORK)
+This repository contains the forked source code for the original product associated with the 2021 master thesis project at Roskilde University, written and developed by 
 
 Danny Nielsen & Kim Meyer Albrechtsen.
 
-
+This repository is intended for further development after hand-in, leaving the original repository archived.
 
 ## Running the Tool
 
