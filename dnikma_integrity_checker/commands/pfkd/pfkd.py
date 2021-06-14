@@ -11,8 +11,11 @@ from dnikma_integrity_checker.shell.configs.dic_context import DicContext
 _query = read_sql_file('pfkd-v2.sql')
 _query_f_name_like_id = read_sql_file('pfkd-flags/name-like-id.sql')
 _query_f_potential_pks = read_sql_file('pfkd-flags/potential-pks.sql')
-_pfkd_cols = ['left_col', 'right_col', 'count_left', 'count_right', 'diff_equal', 'distinct_left',
-              'distinct_right', 'diff_distinct', 'probability', 'probability_distinct']
+_query_f_score = read_sql_file('pfkd-flags/score.sql')
+_pfkd_cols = ['left_col', 'right_col', 'count_left', 'count_right', 'count_diff', 'distinct_left',
+              'distinct_right', 'distinct_diff', 'probability', 'probability_distinct']
+_pfkd_cols_score = ['left_col', 'right_col', 'score']
+              
 
 
 @command('pfkd')
@@ -23,7 +26,10 @@ _pfkd_cols = ['left_col', 'right_col', 'count_left', 'count_right', 'diff_equal'
           description='Detect and use potential primary keys in the potential foreign key detection. '
                       'NOTE: Before using this argument, make sure you have run the "ppkd" command at least once.',
           choices=['YES', 'NO'])
-def pfkd(name_like_id='NO', potential_pks='NO'):
+@argument('score',
+          description="Use the score argument to give each suggested parent-child relation a score based on various features.",
+          choices=['YES', 'NO'])
+def pfkd(name_like_id='NO', potential_pks='NO', score='NO'):
     """
     Find potential foreign key combinations in the current schema.
     This feature is powered by dnikma's Potential Foreign Key Detection (PfkD) algorithm.
@@ -76,6 +82,12 @@ def pfkd(name_like_id='NO', potential_pks='NO'):
                 ctx.store_obj('pfkd_out', nrows)
                 nrows_stripped = [r[:-4] for r in nrows]
             dicprint_table(nrows_stripped, _pfkd_cols, row_numbers=True)
+        elif score == 'YES':
+            with DicLoadingSpinner():
+                nrows = _f_score(db)
+                ctx.store_obj('pfkd_out', nrows)
+                nrows_stripped = [r[:-4] for r in nrows]
+            dicprint_table(nrows_stripped, _pfkd_cols_score, row_numbers=True)
         else:
             # No flag, normal execution
             with DicLoadingSpinner():
@@ -105,6 +117,11 @@ def _f_name_like_id(db) -> []:
                               order_by_desc='probability_distinct')
     return nrows
 
+def _f_score(db) -> []:
+    nrows = run_query_builder(db, _query_f_score,
+                              assign_row_numbers=True,
+                              order_by_desc='score')
+    return nrows
 
 def _try_get_pks(db) -> []:
     # Attempt to get PK constraints
