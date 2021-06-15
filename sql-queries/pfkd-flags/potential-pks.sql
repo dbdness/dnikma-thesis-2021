@@ -6,10 +6,10 @@ SELECT
                     'SELECT ''{Ltable}.{Lcol}'' as left_col, ''{Rtable}.{Rcol}'' as right_col,
                         COUNT(l.`{Lcol}`) as count_left, 
                         COUNT(r.`{Rcol}`) as count_right, 
-                        COUNT(r.`{Rcol}`) - COUNT(l.`{Lcol}`) as count_equal,
+                        COUNT(r.`{Rcol}`) - COUNT(l.`{Lcol}`) as count_diff,
                         COUNT(DISTINCT l.`{Lcol}`) as distinct_left, 
                         COUNT(DISTINCT r.`{Rcol}`) as distinct_right, 
-                        COUNT(DISTINCT r.`{Rcol}`) - COUNT(DISTINCT l.`{Lcol}`) as distinct_equal,
+                        COUNT(DISTINCT r.`{Rcol}`) - COUNT(DISTINCT l.`{Lcol}`) as distinct_diff,
                         CASE WHEN COUNT(r.`{Rcol}`) = 0 
                             THEN 0
                             ELSE COUNT(l.`{Lcol}`) / COUNT(r.`{Rcol}`)
