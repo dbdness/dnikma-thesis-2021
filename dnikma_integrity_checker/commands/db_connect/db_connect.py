@@ -10,7 +10,7 @@ from .mysql.mysql_conn import mysql_conn, MySQLConn
 
 @command()
 @argument('connection_string', type=str, positional=True,
-          description="Format: host=myHostAddress;database=myDatabase;user=myUsername;password=myPassword;")
+          description='Format: "host=myHostAddress;database=myDatabase;user=myUsername;password=myPassword;"')
 def db_connect(connection_string: str):
     """
     Connect to specified MySQL instance using a connection string.

@@ -18,5 +18,6 @@ def about():
     cprint("\n")
     cprint("Welcome to the dnikma MySQL Integrity Checker.")
     cprint("This tool has been developed as a part of Danny and Kim's 2021 thesis project at Roskilde University.")
-    cprint("Please refer to the GitHub repository for more details: https://github.com/dbdness/dnikma-thesis-2021")
+    cprint("Please refer to the GitHub repository for more details or issue reporting: "
+           "https://github.com/dbdness/dnikma-thesis-2021")
     cprint("")

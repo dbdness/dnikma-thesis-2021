@@ -4,8 +4,8 @@ SELECT
 			REPLACE(
 				REPLACE('SELECT ''{ctab}.{ccol}'' AS ''orphan'', 
 				''{ptab}.{pcol}'' AS ''parent'', 
-				ct.{ccol} AS ''orphan_val'' FROM {ctab} ct
-				LEFT JOIN {ptab} pt ON ct.{ccol} = pt.{pcol} 
+				ct.{ccol} AS ''orphan_val'' FROM `{ctab}` ct
+				LEFT JOIN `{ptab}` pt ON ct.{ccol} = pt.{pcol}
 				WHERE ct.{ccol} IS NOT NULL 
 				AND pt.{pcol} IS NULL;', 
 			'{ctab}', 
